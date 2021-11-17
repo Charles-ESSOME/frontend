@@ -1,0 +1,23 @@
+<div class="align">
+<div class="container">
+   
+        <div class="col-md-offset-5 col-md-3">
+            <div class="form-login">
+            <h4>Se connecter à l'agenda</h4>
+            <input type="text" [(ngModel)]="user.email" id="userName" class="form-control input-sm chat-input" placeholder="nom untilisateur" />
+            <br>
+            <input type="password" [(ngModel)]="user.password" id="userPassword" class="form-control input-sm chat-input" placeholder="mot de passe" />
+            <br>
+            <div class="wrapper">
+            <span class="group-btn" routerLink="actice">     
+                <a (click)="login()" routerLink="home" class="btn btn-primary btn-md">Connexion <i class="fa fa-sign-in"></i></a>
+            </span>
+            <span class="text-danger" *ngIf="loginMessage">
+                {{loginMessage}}
+            </span>
+            </div>
+            </div>
+            
+    </div>
+</div>
+</div>

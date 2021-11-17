@@ -1,0 +1,170 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Agenda</h2>
+      <div class="add-btn">
+        <button class="btn btn-success " (click)="open(content)">
+          <i class="fas fa-plus"></i>
+          Ajouter</button>
+      </div>
+      <ul class="list-group">
+          <li class='list-group-item' *ngFor="let event of events">
+          <div class="contain">
+            <div>
+              <h4 [ngStyle]="{color:'whithe' }"> {{event.label}}  </h4>
+              <h6> {{event.date | date |uppercase }} </h6>
+              <p> {{event.description}} </p>
+              <p> <b>Lieu: </b> {{event.lieu}} </p>
+              <h4><p><strong>inviter: </strong> {{event.invite}} </p></h4>
+              <button class="btn btn-secondary"(click)="openEdit(content3,event)">Inviter</button>
+            </div>           
+
+            <div class="dms">
+              <button class="btn btn-primary " (click)="openEdit(content1,event)"> Modifier</button>
+              <button class="btn btn-danger"(click)="openDelete(content2,event)">supprimer</button>
+           </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>  
+</div>
+
+
+<!-- modals d'ajout d'événement -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Ajouter un Evenement </h4>
+    <button type="button btn-outline-secondary" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="save(modal.close)" #heroForm="ngForm">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="dateOfBirth"></label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Libéllé de l'événement *" aria-label="Username"
+            aria-describedby="basic-addon1" [(ngModel)]="selectedEvent.label" name="label" required #label="ngModel">
+          <span class="invalid-feedback" [hidden]="label.valid || label.pristine">champs abscent </span>
+        </div>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Lieu de l'evenenement*" aria-label="Username"
+            aria-describedby="basic-addon1" [(ngModel)]="selectedEvent.lieu" name="lieu" required #lieu="ngModel">
+          <span class="invalid-feedback" [hidden]="lieu.valid || lieu.pristine">champs abscent </span>
+        </div>
+        <div class="input-group">
+          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd  *" name="dp" ngbDatepicker
+            #dp="ngbDatepicker" [(ngModel)]="date" name="date" required>
+          <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button">calendrier</button>
+        </div>
+        <div class="input-group">
+          <textarea class="form-control" aria-label="With textarea" placeholder="description de l'évenement"
+            [(ngModel)]="selectedEvent.description" name="description"> </textarea>
+        </div>
+        <div class="input-group">
+          <textarea class="form-control" aria-label="With textarea" placeholder="Ajouter un inviter"
+            [(ngModel)]="selectedEvent.invite" name="description"> </textarea>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="!heroForm.form.valid" class="btn btn-outline-success">Enregistrer</button>
+    </div>
+  </form>
+</ng-template>
+
+<!-- modal de modification d'événement -->
+<ng-template #content1 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modifier l'evenement </h4>
+    <button type="button btn-outline-secondary" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="modify(modal.close)" #heroForm="ngForm">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="dateOfBirth"></label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Libéllé de l'événement" aria-label="Username"
+            aria-describedby="basic-addon1" [(ngModel)]="selectedEvent.label" name="label" required #label="ngModel">
+          <span class="invalid-feedback" [hidden]="label.valid || label.pristine">champs abscent </span>
+        </div>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Lieu de l'evenenement" aria-label="Username"
+            aria-describedby="basic-addon1" [(ngModel)]="selectedEvent.lieu" name="lieu" required #lieu="ngModel">
+          <span class="invalid-feedback" [hidden]="lieu.valid || lieu.pristine">champs abscent </span>
+        </div>
+        <div class="input-group">
+          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
+            #dp="ngbDatepicker" [(ngModel)]="date" name="date" required>
+          <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button">calendrier</button>
+        </div>
+        <div class="input-group">
+          <textarea class="form-control" aria-label="With textarea" placeholder="description de l'évenement"
+            [(ngModel)]="selectedEvent.description" name="description"> </textarea>
+        </div>
+        <div class="input-group">
+          <textarea class="form-control" aria-label="With textarea" placeholder="Ajouter un inviter"
+            [(ngModel)]="selectedEvent.invite" name="invite"> </textarea>
+        </div>
+
+
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="!heroForm.form.valid" class="btn btn-outline-success">Enregistrer</button>
+    </div>
+  </form>
+</ng-template>
+
+<!-- modal de suppression d'événement -->
+<ng-template #content2 let-modal>
+  <div class="modal-body">
+    <div class="form-group">
+      <p>Voulez vous vraiment supprimer l'évenement }}</p>
+        <br />
+        <div class="ng-contain">
+        <button type="button"  class="marge btn btn-danger"
+        (click)='delete(modal.close)' >Supprimer</button>
+        <button type="button"  class="marge btn btn-outline-secondary"
+        (click)="modal.close('Annuler')">Annuler</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- modal d'ajout d'inviter  -->
+<ng-template #content3 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modifier l'evenement </h4>
+    <button type="button btn-outline-secondary" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="addInvite(modal.close)" #heroForm="ngForm">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="dateOfBirth"></label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Ajouter les invité ici" aria-label="Username"
+            aria-describedby="basic-addon1" [(ngModel)]="selectedEvent.invite" name="label" required #label="ngModel">
+          <span class="invalid-feedback" [hidden]="label.valid || label.pristine">champs abscent </span>
+        </div>
+
+
+
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="!heroForm.form.valid" class="btn btn-outline-success">Enregistrer</button>
+    </div>
+  </form>
+</ng-template>
+
+
