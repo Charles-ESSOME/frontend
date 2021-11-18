@@ -16,7 +16,7 @@
               <p> {{event.description}} </p>
               <p> <b>Lieu: </b> {{event.lieu}} </p>
               <h4><p><strong>inviter: </strong> {{event.invite}} </p></h4>
-              <button class="btn btn-secondary"(click)="openEdit(content3,event)">Inviter</button>
+              <button class="btn btn-secondary"(click)="openEdit(content3,event.invite)">Inviter</button>
             </div>           
 
             <div class="dms">
@@ -141,7 +141,7 @@
 <!-- modal d'ajout d'inviter  -->
 <ng-template #content3 let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Modifier l'evenement </h4>
+    <h4 class="modal-title" id="modal-basic-title">Ajout d'inviter </h4>
     <button type="button btn-outline-secondary" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -149,17 +149,12 @@
   <form (ngSubmit)="addInvite(modal.close)" #heroForm="ngForm">
     <div class="modal-body">
       <div class="form-group">
-        <label for="dateOfBirth"></label>
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Ajouter les invité ici" aria-label="Username"
             aria-describedby="basic-addon1" [(ngModel)]="selectedEvent.invite" name="label" required #label="ngModel">
           <span class="invalid-feedback" [hidden]="label.valid || label.pristine">champs abscent </span>
         </div>
-
-
-
       </div>
-
     </div>
     <div class="modal-footer">
       <button type="submit" [disabled]="!heroForm.form.valid" class="btn btn-outline-success">Enregistrer</button>
